@@ -1,8 +1,8 @@
-# Gophercon 2025 Hardware Hack Session
+# Gophercon EU 2026 Hardware Hack Session
 
-![Gophercon logo](./images/gophercon-logo.png)
+![Gophercon.EU logo](./images/gophercon-eu-logo.png)
 
-The is the repository for the hardware hack session at Gophercon 2025.
+The is the repository for the hardware hack session at Gophercon EU 2026.
 
 https://www.gophercon.com/
 
@@ -33,16 +33,6 @@ These are some of the activities you can do with the hardware we have available.
 - [TinyGo Bluetooth sensor](#tinygo-bluetooth-sensor)
 
 Post your robot picture and videos using hashtag #gophercon
-
-### Skynet LLM robotic interface
-
-<img src="https://github.com/hybridgroup/skynet/raw/main/images/skynet-minidrone.gif" style="width: 840px; min-width: 640px;" />
-
-Get ready to give some intelligence to the machines with Skynet! Skynet is a lightweight command line interface for LLMs to control real robots and drones using Bash from your own machine.
-
-You can currently use Skynet to control either the MiP or the Minidrone using Go.
-
-Start the robot takeover at https://github.com/hybridgroup/skynet.
 
 ### Parrot Minidrone
 
@@ -92,4 +82,4 @@ Ready to Go wireless? Click on [./bluetooth/arduino/](./bluetooth/arduino/) to g
 
 ## License
 
-Copyright (c) 2015-2025 The Hybrid Group and friends. Licensed under the MIT license.
+Copyright The Hybrid Group and friends. Licensed under the MIT license.
