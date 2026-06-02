@@ -1,0 +1,24 @@
+package main
+
+import (
+	"machine"
+	"time"
+)
+
+func main() {
+	led := machine.D1
+	led.Configure(machine.PinConfig{Mode: machine.PinOutput})
+
+	button := machine.D10
+	button.Configure(machine.PinConfig{Mode: machine.PinInputPulldown})
+
+	for {
+		if button.Get() {
+			led.High()
+		} else {
+			led.Low()
+		}
+
+		time.Sleep(time.Millisecond * 100)
+	}
+}

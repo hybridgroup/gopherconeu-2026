@@ -4,7 +4,7 @@
 
 The is the repository for the hardware hack session at Gophercon EU 2026.
 
-https://www.gophercon.com/
+https://www.gophercon.eu/
 
 ### Please return all borrowed equipment when you are finished for the next person. Thank you!
 
@@ -25,14 +25,26 @@ Please read our [installation instructions here](./INSTALL.md).
 
 These are some of the activities you can do with the hardware we have available. But that is only a starting point! Explore, experiment, learn, and have fun!
 
-- [Skynet LLM robotic interface](#skynet-llm-robotic-interface)
+- [TinyGo Xiao IoT sensor](#tinygo-iot-sensor)
 - [Parrot Minidrone](#parrot-minidrone)
 - [WowWee MiP robot](#wowwee-mip-robot)
 - [Sphero Mini robot](#sphero-mini-robot)
-- [TinyGo IoT sensor](#tinygo-iot-sensor)
-- [TinyGo Bluetooth sensor](#tinygo-bluetooth-sensor)
 
-Post your robot picture and videos using hashtag #gophercon
+Post your robot picture and videos using hashtag #gopherconeu
+
+### TinyGo IoT sensor
+
+![Xiao ESP32-C3](./sensor/xiao/assets/step6.jpg)
+
+Looking for the true "parts experience"? Got you covered! We have brought some Seeed Studio Xiao ESP32-C3 IoT microcontroller boards for each person to use for the activity.
+
+https://www.seeedstudio.com/Seeed-XIAO-ESP32C3-p-5431.html
+
+These can be programmed using TinyGo.
+
+There are some Grove sensor kits that you can use for the activity.
+
+Ready to try this out? Go to [./sensor/xiao/](./sensor/xiao/) to get started.
 
 ### Parrot Minidrone
 
@@ -57,28 +69,6 @@ Ready to roll? Go to https://github.com/hybridgroup/tinygo-mip.
 You need more robots? Of course you do! We brought a few Sphero Mini ball-shaped robots that you control using Bluetooth.
 
 Keep on rolling at https://github.com/hybridgroup/tinygo-sphero.
-
-### TinyGo IoT sensor
-
-![Arduino Nano RP2040](./sensor/arduino/assets/step6.jpg)
-
-Looking for the true "parts experience"? Got you covered! We have brought some Arduino Nano RP2040 Connect IoT microcontroller boards for each person to use for the activity.
-
-https://store.arduino.cc/collections/boards/products/arduino-nano-rp2040-connect
-
-These can be programmed using TinyGo.
-
-There are some Grove sensor kits that you can use for the activity.
-
-Ready to try this out? Go to [./sensor/arduino/](./sensor/arduino/) to get started.
-
-### TinyGo Bluetooth sensor
-
-[![Go Bluetooth](./images/gobluetooth.png)](https://tinygo.org/bluetooth)
-
-This series of tutorials is intended to help you learn about programming Bluetooth devices using TinyGo and the TinyGo Bluetooth package. Using a Arduino Nano RP2040 Connect IoT microcontroller board and tiny display, discover the Bluetooth devices all around us, and make one of your own.
-
-Ready to Go wireless? Click on [./bluetooth/arduino/](./bluetooth/arduino/) to get started.
 
 ## License
 
