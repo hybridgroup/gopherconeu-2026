@@ -217,7 +217,7 @@ tinygo flash -target xiao-esp32c3 ./step7/
 
 ![Xiao Web Server](./assets/Xiao-http-webserver.png)
 
-In this step we will connect to the built-in wireless chip on the board and set it up to act as a WiFi Access Point.
+In this step we will connect to the built-in wireless radio on the ESP32-C3 and set it up to act as a web server.
 
 The code for the wireless connection is in the file `wifi.go`.
 
@@ -229,7 +229,7 @@ Take a look at the code in the file `webserver.go`. A few things of note:
 - Likewise the CSS file is also embedded into the binary. The CSS is from a very small framework called [MinCSS](https://mincss.com/docs.html).
 - Even though it is running on the Xiao, the normal `net/html` package is used to implement the web server using calls to `http.HandleFunc()` and `http.ListenAndServe()`.
 
-You need to create unique values for your access point to not interfere with other people, so replace `myssid` and `mypass` for your WiFi setup, then flash the board with the following command:
+You need to to the access point to not interfere with other people, so replace `myssid` and `mypass` for your WiFi setup, then flash the board with the following command:
 
 ```
 tinygo flash -target xiao-esp32c3 -ldflags="-X main.ssid=myssid -X main.pass=mypass" ./step8/
@@ -237,7 +237,7 @@ tinygo flash -target xiao-esp32c3 -ldflags="-X main.ssid=myssid -X main.pass=myp
 
 #### How to tell if it is working
 
-Connect your computer to the access point running on the Xiao, then open a new browser window and connect to http://192.168.4.1:8080/
+Connect your computer to the access point running on the Xiao, then open a new browser window and connect to the IP address shown in your terminal. For example, http://192.168.4.1:8080/
 
 Click on the "On" button on the web page to activate the alarm system. Click on the "Off" button to deactivate it.
 
@@ -255,7 +255,7 @@ tinygo flash -target xiao-esp32c3 -ldflags="-X main.ssid=myssid -X main.pass=myp
 
 #### How to tell if it is working
 
-Connect your computer to the access point, then open a new browser window and connect to http://192.168.4.1:8080/
+Connect your computer to the access point, then open a new browser window and connect to the IP address shown in your terminal. For example, http://192.168.4.1:8080/
 
 ### step10.go - Alarm System Web Server - Set alarm limit
 
@@ -271,7 +271,7 @@ tinygo flash -target xiao-esp32c3 -ldflags="-X main.ssid=myssid -X main.pass=myp
 
 #### How to tell if it is working
 
-Connect your computer to the access point, then open a new browser window and connect to http://192.168.0.1
+Connect your computer to the access point, then open a new browser window and connect to the IP address shown in your terminal. For example, http://192.168.4.1:8080/
 
 ### mqtt.go (bonus step) - Green LED, Button, Red LED, Buzzer, Touch, Dial, OLED display, MQTT
 
@@ -279,7 +279,7 @@ Connect your computer to the access point, then open a new browser window and co
 
 In this step we will connect to a machine to machine messaging server using the [MQTT machine to machine messaging protocol](https://en.wikipedia.org/wiki/MQTT). No additional hardware is required for this step.
 
-However, now instead of the Xiao acting as a wireless access point, we need to connect it as a device to an existing access point so it can access the Internet.
+However, now instead of the Xiao acting as a web server, instead it will act as an MQTT client.
 
 Substitute the correct values for your WiFi setup in the following command:
 

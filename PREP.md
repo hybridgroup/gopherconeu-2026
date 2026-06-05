@@ -18,10 +18,9 @@ TBD
     - [ ] macOS
     - [ ] Windows
 
-## Arduino IoT
+## Xiao IoT
 
 - [ ] organize parts kits
-- [ ] update for latest drivers wifinina
 - [ ] add apconnect tool
 - [ ] OS check
     - [ ] Linux

@@ -25,14 +25,15 @@ Please read our [installation instructions here](./INSTALL.md).
 
 These are some of the activities you can do with the hardware we have available. But that is only a starting point! Explore, experiment, learn, and have fun!
 
-- [TinyGo Xiao IoT sensor](#tinygo-iot-sensor)
+- [TinyGo Xiao IoT sensor](#tinygo-xiao-iot-sensor)
+- [TinyGo M5Stack Core 2](#tinygo-m5stack-core-2)
 - [Parrot Minidrone](#parrot-minidrone)
 - [WowWee MiP robot](#wowwee-mip-robot)
 - [Sphero Mini robot](#sphero-mini-robot)
 
 Post your robot picture and videos using hashtag #gopherconeu
 
-### TinyGo IoT sensor
+### TinyGo Xiao IoT sensor
 
 ![Xiao ESP32-C3](./sensor/xiao/assets/step6.jpg)
 
@@ -45,6 +46,18 @@ These can be programmed using TinyGo.
 There are some Grove sensor kits that you can use for the activity.
 
 Ready to try this out? Go to [./sensor/xiao/](./sensor/xiao/) to get started.
+
+### TinyGo M5Stack Core 2
+
+![m5stack Core 2](./images/m5stack-core2.webp)
+
+We also have a few M5Stack Core2 Kits you can try out with TinyGo.
+
+https://docs.m5stack.com/en/core/core2
+
+These can be programmed using TinyGo, in fact our friends as Espressif have an entire self-guided workshop!
+
+Ready to explore? Go to the [Espressif TinyGo Embedded Workshop](https://developer.espressif.com/workshops/tinygo/) to get started.
 
 ### Parrot Minidrone
 
