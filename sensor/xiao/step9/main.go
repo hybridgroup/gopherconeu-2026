@@ -14,14 +14,17 @@ import (
 )
 
 var (
-	green  = machine.D8
-	red    = machine.D1
+	green = machine.D1
+	red   = machine.D8
+
 	button = machine.D10
+
 	touch  = machine.D3
 	bzrPin = machine.D2
-
 	bzr    buzzer.Device
-	dial   = machine.ADC{machine.D0}
+
+	dial = machine.ADC{machine.D0}
+
 	pwm    = machine.PWM0
 	redPwm uint8
 
@@ -138,7 +141,7 @@ func systemActivationStatusButton() {
 	case pushed && !buttonPush:
 		// we pushed the button
 		systemActive = !systemActive
-		buttonPush = false
+		buttonPush = true
 	default:
 		// do nothing
 	}
@@ -192,7 +195,7 @@ func handleSystemTest() {
 	case pushed && !touchPush:
 		// we pushed the button
 		alarmTriggered = !alarmTriggered
-		touchPush = false
+		touchPush = true
 	default:
 		// do nothing
 	}

@@ -113,14 +113,6 @@ The red LED should light up. When you press the button, the green LED should tur
 
 In this step we will add two new devices. The first one is a capacitive touch sensor. It essentially acts like a button, but you only need to touch it to activate it. The second is a small piezoelectric buzzer. When current is sent to the buzzer, it makes a noise.
 
-- Plug the Grove touch sensor into one of the provided cables with the Grove connector on one end, and the male jumpers on the other.
-
-- Connect the black male end of the Grove cable to the breadboard's top left set of pins (-).
-
-- Connect the red male end of the Grove cable to the breadboard's top right (+) set of pins.
-
-- Connect the yellow male end of the Grove cable to pin D3 on the Xiao.
-
 - Plug the Grove buzzer into one of the provided cables with the Grove connector on one end, and the male jumpers on the other.
 
 - Connect the black male end of the Grove cable to the breadboard's top left set of pins (-).
@@ -128,6 +120,14 @@ In this step we will add two new devices. The first one is a capacitive touch se
 - Connect the red male end of the Grove cable to the breadboard's top right (+) set of pins.
 
 - Connect the yellow male end of the Grove cable to pin D2 on the Xiao.
+
+- Plug the Grove touch sensor into one of the provided cables with the Grove connector on one end, and the male jumpers on the other.
+
+- Connect the black male end of the Grove cable to the breadboard's top left set of pins (-).
+
+- Connect the red male end of the Grove cable to the breadboard's top right (+) set of pins.
+
+- Connect the yellow male end of the Grove cable to pin D3 on the Xiao.
 
 Run the code.
 
@@ -215,7 +215,7 @@ tinygo flash -target xiao-esp32c3 ./step7/
 
 ### step8.go - Alarm System Web Server - LED control
 
-![Xiao Web Server](./assets/Xiao-http-webserver.png)
+![Xiao Web Server](./assets/xiao-http-webserver.png)
 
 In this step we will connect to the built-in wireless radio on the ESP32-C3 and set it up to act as a web server.
 
@@ -229,15 +229,31 @@ Take a look at the code in the file `webserver.go`. A few things of note:
 - Likewise the CSS file is also embedded into the binary. The CSS is from a very small framework called [MinCSS](https://mincss.com/docs.html).
 - Even though it is running on the Xiao, the normal `net/html` package is used to implement the web server using calls to `http.HandleFunc()` and `http.ListenAndServe()`.
 
-You need to to the access point to not interfere with other people, so replace `myssid` and `mypass` for your WiFi setup, then flash the board with the following command:
+You need to connect to an access point that is on the same network as your computer to connnect to the web server running on the Xiao. Replace `myssid` and `mypass` for your WiFi setup, then flash the board with the following command:
 
 ```
-tinygo flash -target xiao-esp32c3 -ldflags="-X main.ssid=myssid -X main.pass=mypass" ./step8/
+tinygo flash -target xiao-esp32c3 -ldflags="-X main.ssid=myssid -X main.password=mypass" -size short -monitor ./step8/
+```
+
+Your should see something in your output similar to this:
+
+```
+Device reset.
+Connected to /dev/ttyACM0. Press Ctrl-C to exit.
+SHA-256 comparison failed:
+Calculated: d6cadb12af152d93b79bfab7ea444967a8ffb62d0214e60b38afb0c19355b0d8
+Expected: 669e977affaaeb08afc2331378d727825998a37dd98c06ccd2bb44865694a4af
+Attempting to boot anyway...
+entry 0x4039f48c
+Connecting to WiFi...
+HTTP server listening on http://192.168.1.244:80
 ```
 
 #### How to tell if it is working
 
-Connect your computer to the access point running on the Xiao, then open a new browser window and connect to the IP address shown in your terminal. For example, http://192.168.4.1:8080/
+![Webserver 1](./assets/alarm-webserver-1.png)
+
+As long as your computer is connected to the same access point running on the Xiao, you can open a new browser window and connect to the IP address shown in your terminal from the Xiao board's output. For example, http://192.168.1.244:80
 
 Click on the "On" button on the web page to activate the alarm system. Click on the "Off" button to deactivate it.
 
@@ -250,12 +266,14 @@ Now we will modify the web server so we can see the alarm system status on the w
 Remember to replace `myssid` and `mypass` for your WiFi setup, then flash the board with the following command:
 
 ```
-tinygo flash -target xiao-esp32c3 -ldflags="-X main.ssid=myssid -X main.pass=mypass" ./step9/
+tinygo flash -target xiao-esp32c3 -ldflags="-X main.ssid=myssid -X main.password=mypassword" -size short -monitor ./step9/
 ```
 
 #### How to tell if it is working
 
-Connect your computer to the access point, then open a new browser window and connect to the IP address shown in your terminal. For example, http://192.168.4.1:8080/
+![Webserver 2](./assets/alarm-webserver-2.png)
+
+Connect your computer to the access point, then open a new browser window and connect to the IP address shown in your terminal. For example,  http://192.168.1.244:80
 
 ### step10.go - Alarm System Web Server - Set alarm limit
 
@@ -266,10 +284,12 @@ Now we will modify the web server so we can set the limit for the rotary dial to
 Remember to replace `myssid` and `mypass` for your WiFi setup, then flash the board with the following command:
 
 ```
-tinygo flash -target xiao-esp32c3 -ldflags="-X main.ssid=myssid -X main.pass=mypass" ./step10/
+tinygo flash -target xiao-esp32c3 -ldflags="-X main.ssid=myssid -X main.password=mypass" -size short -monitor ./step10/
 ```
 
 #### How to tell if it is working
+
+![Webserver 3](./assets/alarm-webserver-3.png)
 
 Connect your computer to the access point, then open a new browser window and connect to the IP address shown in your terminal. For example, http://192.168.4.1:8080/
 
@@ -284,7 +304,7 @@ However, now instead of the Xiao acting as a web server, instead it will act as 
 Substitute the correct values for your WiFi setup in the following command:
 
 ```
-tinygo flash -target xiao-esp32c3 -ldflags="-X main.ssid=TinyGoHackDay -X main.pass=community" ./step8/
+tinygo flash -target xiao-esp32c3 -ldflags="-X main.ssid=myssid -X main.password=mypass" -size short -monitor ./mqtt
 ```
 
 ## How to tell if it is working
@@ -292,7 +312,7 @@ tinygo flash -target xiao-esp32c3 -ldflags="-X main.ssid=TinyGoHackDay -X main.p
 Install the client tools for `mosquitto` for your operating system, then run:
 
 ```
-mosquitto_sub -h 'test.mosquitto.org' -t 'tinygohackday'
+mosquitto_sub -h 'broker.hivemq.com' -t 'tinygohackday'
 ```
 
 When you run this command, you should be able to see the messages appear. These are being sent from your own machine to an MQTT broker provided by the Eclipse Foundation and running on a cloud server that they provide.

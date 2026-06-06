@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>TinyGo HTTP Server</title>
+    <title>TinyGo Alarm Server</title>
     <link href="mincss.min.css" rel="stylesheet" type="text/css">
     <style>
         .hero {
@@ -21,7 +21,6 @@
         function ledOn() { fetch("/on"); }
         function ledOff() { fetch("/off"); }
         function fetchStatus() { fetch("/status").then(response => response.json()).then(json => { currentStatus = json.status; document.getElementById('status').innerHTML = currentStatus; }); }
-        setInterval(fetchStatus, 1000);
         function setAlarmLevel() { fetch("/alarmlevel", {
             method: "POST",
             body: "level=" + document.getElementById("levelSlider").value,
@@ -35,14 +34,14 @@
             slider.oninput = function() {
                 alarm.innerHTML = this.value;
             }
-            fetchStatus();
+            setInterval(fetchStatus, 1000);
         }
     </script>
 </head>
 <body onLoad="onLoad()">
     <nav class="nav" tabindex="-1" onclick="this.focus()">
         <div class="container">
-            <a class="pagename current" href="#">TinyGo HTTP Server</a>
+            <a class="pagename current" href="#">TinyGo Alarm Server</a>
             <a href="/6">Six</a> 
         </div>
     </nav>

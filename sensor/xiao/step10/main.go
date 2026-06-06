@@ -3,8 +3,8 @@ package main
 import (
 	"image/color"
 	"machine"
-	"strconv"
 	"time"
+	"unsafe"
 
 	"tinygo.org/x/drivers/buzzer"
 	"tinygo.org/x/drivers/ssd1306"
@@ -14,14 +14,17 @@ import (
 )
 
 var (
-	green  = machine.D8
-	red    = machine.D1
+	green = machine.D1
+	red   = machine.D8
+
 	button = machine.D10
+
 	touch  = machine.D3
 	bzrPin = machine.D2
-
 	bzr    buzzer.Device
-	dial   = machine.ADC{machine.D0}
+
+	dial = machine.ADC{machine.D0}
+
 	pwm    = machine.PWM0
 	redPwm uint8
 
@@ -34,6 +37,9 @@ var (
 	alarmLevel     uint16 = 32000
 
 	systemTest bool
+
+	intBuf     [10]byte // reused buffer for intToString
+	displayBuf [16]byte // reused buffer for display message
 )
 
 func main() {
@@ -101,8 +107,9 @@ func handleDisplay() {
 
 		msg := "off"
 		if systemActive {
-			val := strconv.Itoa(int(dialValue))
-			msg = "pwr: " + val
+			n := copy(displayBuf[:], "pwr: ")
+			n += uintToBytes(displayBuf[n:], uint32(dialValue))
+			msg = unsafe.String(unsafe.SliceData(displayBuf[:n]), n)
 		}
 
 		tinyfont.WriteLine(display, &freemono.Bold9pt7b, 10, 20, msg, black)
@@ -138,7 +145,7 @@ func systemActivationStatusButton() {
 	case pushed && !buttonPush:
 		// we pushed the button
 		systemActive = !systemActive
-		buttonPush = false
+		buttonPush = true
 	default:
 		// do nothing
 	}
@@ -192,7 +199,7 @@ func handleSystemTest() {
 	case pushed && !touchPush:
 		// we pushed the button
 		alarmTriggered = !alarmTriggered
-		touchPush = false
+		touchPush = true
 	default:
 		// do nothing
 	}

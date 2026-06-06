@@ -14,14 +14,17 @@ import (
 )
 
 var (
-	green  = machine.D8
-	red    = machine.D1
+	green = machine.D1
+	red   = machine.D8
+
 	button = machine.D10
+
 	touch  = machine.D3
 	bzrPin = machine.D2
-
 	bzr    buzzer.Device
-	dial   = machine.ADC{machine.D0}
+
+	dial = machine.ADC{machine.D0}
+
 	pwm    = machine.PWM0
 	redPwm uint8
 
@@ -39,14 +42,24 @@ func main() {
 		dialValue = dial.Get()
 		pwm.Set(redPwm, uint32(dialValue))
 
-		buttonPush = button.Get()
+		if button.Get() && !buttonPush {
+			buttonPush = true
+		} else if !button.Get() && buttonPush {
+			buttonPush = false
+		}
+
 		if buttonPush {
 			green.High()
 		} else {
 			green.Low()
 		}
 
-		touchPush = touch.Get()
+		if touch.Get() && !touchPush {
+			touchPush = true
+		} else if !touch.Get() && touchPush {
+			touchPush = false
+		}
+
 		if touchPush {
 			bzr.On()
 		} else {

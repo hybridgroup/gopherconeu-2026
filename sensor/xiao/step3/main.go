@@ -6,8 +6,9 @@ import (
 )
 
 var (
-	green  = machine.D8
-	red    = machine.D1
+	green = machine.D1
+	red   = machine.D8
+
 	button = machine.D10
 )
 

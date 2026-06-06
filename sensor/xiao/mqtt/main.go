@@ -45,11 +45,8 @@ var (
 )
 
 var (
-	ssid string
-	pass string
-
 	// IP address of the MQTT broker to use. Replace with your own info, if so desired.
-	broker string = "tcp://test.mosquitto.org:1883"
+	broker string = "broker.hivemq.com:1883"
 )
 
 func main() {
@@ -222,12 +219,5 @@ func handleSystemTest() {
 		touchPush = false
 	default:
 		// do nothing
-	}
-}
-
-func failMessage(msg string) {
-	for {
-		println(msg)
-		time.Sleep(1 * time.Second)
 	}
 }

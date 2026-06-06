@@ -1,27 +1,36 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
-	"strconv"
-	"time"
 
 	_ "embed"
 )
 
 //go:embed index.html
-var page []byte
+var page string
 
 // Uses Min - a tiny framework that makes websites pretty.
 // See https://mincss.com/
 //
 //go:embed mincss.min.css
-var mincss []byte
+var mincss string
 
 //go:embed tetromino.html
-var tetromino []byte
+var tetromino string
+
+var (
+	responseActive         = []byte("system active")
+	responseInactive       = []byte("system inactive")
+	responseStatusActive   = []byte(`{"status": "active"}`)
+	responseStatusInactive = []byte(`{"status": "inactive"}`)
+	levelJSON              [20]byte // reused buffer for /alarmlevel JSON response
+)
 
 func startWebServer() {
+	h, _ := link.Addr()
+	host := h.String() + port
+	println("HTTP server listening on http://" + host)
+
 	http.HandleFunc("/", root)
 	http.HandleFunc("/mincss.min.css", css)
 	http.HandleFunc("/6", sixlines)
@@ -30,60 +39,72 @@ func startWebServer() {
 	http.HandleFunc("/status", systemStatus)
 	http.HandleFunc("/alarmlevel", alarmlevel)
 
-	err := http.ListenAndServe(port, nil)
+	err := http.ListenAndServe(host, nil)
 	for err != nil {
-		fmt.Printf("error: %s\r\n", err.Error())
-		time.Sleep(1 * time.Second)
+		failMessage("error: " + err.Error())
 	}
 }
 
 func root(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
-	w.Write(page)
+	w.Write([]byte(page))
 }
 
 func css(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
-	w.Write(mincss)
+	w.Write([]byte(mincss))
 }
 
 // https://fukuno.jig.jp/3267
 func sixlines(w http.ResponseWriter, r *http.Request) {
-	w.Write(tetromino)
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(tetromino))
 }
 
 func systemActivate(w http.ResponseWriter, r *http.Request) {
 	systemActive = true
 	w.Header().Set(`Content-Type`, `text/plain; charset=UTF-8`)
-	fmt.Fprintf(w, "system active")
+	w.Write(responseActive)
 }
 
 func systemDeactivate(w http.ResponseWriter, r *http.Request) {
 	systemActive = false
 	w.Header().Set(`Content-Type`, `text/plain; charset=UTF-8`)
-	fmt.Fprintf(w, "system inactive")
+	w.Write(responseInactive)
 }
 
 func systemStatus(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set(`Content-Type`, `text/plain; charset=UTF-8`)
-	status := "inactive"
-	if systemActive {
-		status = "active"
-	}
 	w.Header().Set(`Content-Type`, `application/json`)
-	fmt.Fprintf(w, `{"status": "%s"}`, status)
+	if systemActive {
+		w.Write(responseStatusActive)
+	} else {
+		w.Write(responseStatusInactive)
+	}
 }
 
 func alarmlevel(w http.ResponseWriter, r *http.Request) {
-	r.ParseForm()
 	if r.Method == "POST" {
-		c := r.Form.Get("level")
-		if c != "" {
-			i64, _ := strconv.ParseInt(c, 0, 0)
-			alarmLevel = uint16(i64)
+		var buf [32]byte
+		n, _ := r.Body.Read(buf[:])
+		b := buf[:n]
+		for i := 0; i < n; i++ {
+			if b[i] == '=' {
+				end := i + 1
+				for end < n && b[end] != '&' {
+					end++
+				}
+				if end > i+1 {
+					alarmLevel = uint16(bytesToInt(b[i+1 : end]))
+				}
+				break
+			}
 		}
 	}
 
 	w.Header().Set(`Content-Type`, `application/json`)
-	fmt.Fprintf(w, `{"level": %d}`, alarmLevel)
+	const prefix = `{"level": `
+	n := copy(levelJSON[:], prefix)
+	n += uintToBytes(levelJSON[n:], uint32(alarmLevel))
+	levelJSON[n] = '}'
+	w.Write(levelJSON[:n+1])
 }
