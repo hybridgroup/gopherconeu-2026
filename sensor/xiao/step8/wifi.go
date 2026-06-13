@@ -1,11 +1,12 @@
 package main
 
 import (
+	"net/netip"
 	"time"
 
 	"tinygo.org/x/drivers/netdev"
-	nl "tinygo.org/x/drivers/netlink"
-	"tinygo.org/x/espradio/netlink"
+	"tinygo.org/x/espradio"
+	nl "tinygo.org/x/espradio/netlink"
 )
 
 var (
@@ -13,8 +14,10 @@ var (
 	password string
 	port     string = ":80"
 
-	link netlink.Esplink
+	link nl.Esplink
 )
+
+const apIP = "192.168.4.1"
 
 func connectWifi() {
 	// wait a bit for serial
@@ -23,9 +26,17 @@ func connectWifi() {
 	netdev.UseNetdev(&link)
 
 	println("Connecting to WiFi...")
-	err := link.NetConnect(&nl.ConnectParams{
-		Ssid:       ssid,
-		Passphrase: password,
+	err := link.NetConnectAP(nl.APConnectParams{
+		APConfig: espradio.APConfig{
+			SSID:     ssid,
+			Password: password,
+			Channel:  6,
+		},
+		StaticAddr:       netip.MustParseAddr(apIP),
+		EnableDHCPServer: true,
+		MaxUDPPorts:      2,
+		MaxTCPPorts:      4,
+		PassivePeers:     255,
 	})
 
 	if err != nil {

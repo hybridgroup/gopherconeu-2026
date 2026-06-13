@@ -4,8 +4,8 @@ go 1.24.4
 
 require (
 	github.com/soypat/natiu-mqtt v0.6.0
-	tinygo.org/x/drivers v0.35.0
-	tinygo.org/x/espradio v0.1.1-0.20260605082545-94cb7532ca12
+	tinygo.org/x/drivers v0.35.1-0.20260604174950-1d695a231aef
+	tinygo.org/x/espradio v0.1.1-0.20260613072757-4729f551ba0e
 	tinygo.org/x/tinydraw v0.4.0
 	tinygo.org/x/tinyfont v0.6.0
 )

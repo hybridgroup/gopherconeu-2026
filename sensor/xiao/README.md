@@ -217,7 +217,7 @@ tinygo flash -target xiao-esp32c3 ./step7/
 
 ![Xiao Web Server](./assets/xiao-http-webserver.png)
 
-In this step we will connect to the built-in wireless radio on the ESP32-C3 and set it up to act as a web server.
+In this step we will connect to the built-in wireless radio on the ESP32-C3 and set it up to act as both a WiFi Access Point and a web server.
 
 The code for the wireless connection is in the file `wifi.go`.
 
@@ -229,10 +229,10 @@ Take a look at the code in the file `webserver.go`. A few things of note:
 - Likewise the CSS file is also embedded into the binary. The CSS is from a very small framework called [MinCSS](https://mincss.com/docs.html).
 - Even though it is running on the Xiao, the normal `net/html` package is used to implement the web server using calls to `http.HandleFunc()` and `http.ListenAndServe()`.
 
-You need to connect to an access point that is on the same network as your computer to connnect to the web server running on the Xiao. Replace `myssid` and `mypass` for your WiFi setup, then flash the board with the following command:
+The Xiao board will act as an access point. You will need to connect your computer to it to connect to the web server running on the Xiao. Replace `myssid` with something unique for your WiFi setup, then flash the board with the following command:
 
 ```
-tinygo flash -target xiao-esp32c3 -ldflags="-X main.ssid=myssid -X main.password=mypass" -size short -monitor ./step8/
+tinygo flash -target xiao-esp32c3 -ldflags="-X main.ssid=myssid" -size short -monitor ./step8/
 ```
 
 Your should see something in your output similar to this:
@@ -246,14 +246,14 @@ Expected: 669e977affaaeb08afc2331378d727825998a37dd98c06ccd2bb44865694a4af
 Attempting to boot anyway...
 entry 0x4039f48c
 Connecting to WiFi...
-HTTP server listening on http://192.168.1.244:80
+HTTP server listening on http://192.168.1.1:80
 ```
 
 #### How to tell if it is working
 
 ![Webserver 1](./assets/alarm-webserver-1.png)
 
-As long as your computer is connected to the same access point running on the Xiao, you can open a new browser window and connect to the IP address shown in your terminal from the Xiao board's output. For example, http://192.168.1.244:80
+As long as your computer is connected to the access point running on the Xiao, you can open a new browser window and connect to the IP address shown in your terminal from the Xiao board's output. For example, http://192.168.1.1:80
 
 Click on the "On" button on the web page to activate the alarm system. Click on the "Off" button to deactivate it.
 
@@ -263,17 +263,17 @@ Click on the "On" button on the web page to activate the alarm system. Click on 
 
 Now we will modify the web server so we can see the alarm system status on the web page.
 
-Remember to replace `myssid` and `mypass` for your WiFi setup, then flash the board with the following command:
+Remember to replace `myssid` for your WiFi setup, then flash the board with the following command:
 
 ```
-tinygo flash -target xiao-esp32c3 -ldflags="-X main.ssid=myssid -X main.password=mypassword" -size short -monitor ./step9/
+tinygo flash -target xiao-esp32c3 -ldflags="-X main.ssid=myssid" -size short -monitor ./step9/
 ```
 
 #### How to tell if it is working
 
 ![Webserver 2](./assets/alarm-webserver-2.png)
 
-Connect your computer to the access point, then open a new browser window and connect to the IP address shown in your terminal. For example,  http://192.168.1.244:80
+Connect your computer to the access point, then open a new browser window and connect to the IP address shown in your terminal. For example,  http://192.168.1.1:80
 
 ### step10.go - Alarm System Web Server - Set alarm limit
 
@@ -281,10 +281,10 @@ Connect your computer to the access point, then open a new browser window and co
 
 Now we will modify the web server so we can set the limit for the rotary dial to trigger the alarm from the web page.
 
-Remember to replace `myssid` and `mypass` for your WiFi setup, then flash the board with the following command:
+Remember to replace `myssid` for your WiFi setup, then flash the board with the following command:
 
 ```
-tinygo flash -target xiao-esp32c3 -ldflags="-X main.ssid=myssid -X main.password=mypass" -size short -monitor ./step10/
+tinygo flash -target xiao-esp32c3 -ldflags="-X main.ssid=myssid" -size short -monitor ./step10/
 ```
 
 #### How to tell if it is working
@@ -300,6 +300,8 @@ Connect your computer to the access point, then open a new browser window and co
 In this step we will connect to a machine to machine messaging server using the [MQTT machine to machine messaging protocol](https://en.wikipedia.org/wiki/MQTT). No additional hardware is required for this step.
 
 However, now instead of the Xiao acting as a web server, instead it will act as an MQTT client.
+
+You will need access to the Internet, so you must connect the Xiao board as a WiFi client to some other WiFi Access Point.
 
 Substitute the correct values for your WiFi setup in the following command:
 

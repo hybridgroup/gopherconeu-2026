@@ -15,9 +15,6 @@ var page string
 //go:embed mincss.min.css
 var mincss string
 
-//go:embed tetromino.html
-var tetromino string
-
 var (
 	responseActive         = []byte("system active")
 	responseInactive       = []byte("system inactive")
@@ -33,7 +30,6 @@ func startWebServer() {
 
 	http.HandleFunc("/", root)
 	http.HandleFunc("/mincss.min.css", css)
-	http.HandleFunc("/6", sixlines)
 	http.HandleFunc("/on", systemActivate)
 	http.HandleFunc("/off", systemDeactivate)
 	http.HandleFunc("/status", systemStatus)
@@ -53,12 +49,6 @@ func root(w http.ResponseWriter, r *http.Request) {
 func css(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte(mincss))
-}
-
-// https://fukuno.jig.jp/3267
-func sixlines(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(tetromino))
 }
 
 func systemActivate(w http.ResponseWriter, r *http.Request) {
